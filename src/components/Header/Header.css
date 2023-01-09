@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+/* body{
+    height:100vh;
+} */
+header {
+    text-align: center;
+    margin:0;
+    padding:0px;
+    padding-bottom:30px;
+    background:#777;
+    color:white;
+}
+
+header ul{
+    display:flex;
+    padding:10px;
+    font-size:18px;
+    font-weight:200;
+    justify-content: center;
+    list-style-type: none;
+    border-bottom:0.1rem solid white;
+    position: fixed;
+    top: 0%;
+    background: black;
+    width: 100%;
+    z-index: 1;
+}
+header li{
+    margin:0px 40px;
+}
+header li a{
+    text-decoration: none;
+    color:white;
+}
+header h1{
+    padding:40px;
+    font-size:100px;
+}
