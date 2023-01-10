@@ -6,7 +6,7 @@ const Product = (props) => {
     <Col xs={6}>
       <Card >
         <h3 className="text-center">{props.title}</h3>
-        <Card.Img variant="top" classname="product-images" src={props.img} />
+        <Card.Img variant="top" className="product-images" src={props.img} />
         <Card.Footer>
           <p className="mr-0">${props.price}</p>
           <Button variant="info" className="float-end">ADD TO CART</Button>
