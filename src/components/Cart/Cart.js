@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button, Col, Row, Card } from "react-bootstrap";
 import './Cart.css';
 
@@ -24,11 +25,19 @@ const cartElements = [
 
 const Cart = () => {
 
-  const removeItemHandler = () => {
-    
+  const [items, setItems] = useState(cartElements);
+
+  const removeItemHandler = (title) => {
+    let newArray = [];
+    items.forEach((item) => {
+      if(item.title !== title) {
+        newArray.push(item);
+      }
+    });
+    setItems(newArray);
   };
 
-  const cartItems = cartElements.map((item) => {
+  const cartItems = items.map((item) => {
     return (
       <Row className="mr-3 mb-3">
         <Col xs={4} md={4}>
@@ -42,7 +51,7 @@ const Cart = () => {
         </Col>
         <Col xs={4} md={4}>
           <input type="number" value={item.quantity} id="item-quantity" />
-          <Button variant="danger" className="m-3" onClick={removeItemHandler}>REMOVE</Button>
+          <Button variant="danger" className="m-3" onClick={removeItemHandler.bind(null, item.title)}>REMOVE</Button>
         </Col>
       </Row>
     );
