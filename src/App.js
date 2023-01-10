@@ -1,14 +1,14 @@
 import React from 'react';
 import Header from './components/Header/Header';
-import {Button} from 'react-bootstrap';
 
 import './App.css';
+import Products from './components/Products/Products';
 
 function App() {
   return (
     <div className="Ecommerce-container">
       <Header />
-      <Button variant='primary'>Primary</Button>
+      <Products />
     </div>
   );
 }

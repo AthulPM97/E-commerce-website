@@ -1,4 +1,5 @@
 import './Header.css'
+import {Button} from 'react-bootstrap';
 
 const Header = (props) => {
     return (
@@ -7,7 +8,7 @@ const Header = (props) => {
                 <li>Home</li>
                 <li>Store</li>
                 <li>About</li>
-            <a href='www.google.com'>Cart <span>0</span></a>
+                <Button variant='outline-info' className='float-end'>Cart</Button>
             </ul>
             <h1>The Generics</h1>
         </header>
