@@ -28,8 +28,8 @@ const Cart = () => {
 
   const cartCtx = useContext(CartContext);
 
-  const removeItemHandler = (title) => {
-    
+  const removeItemHandler = (id) => {
+    cartCtx.removeItem(id);
   };
 
   const cartItems = cartCtx.items.map((item) => {
@@ -46,7 +46,7 @@ const Cart = () => {
         </Col>
         <Col xs={4} md={4}>
           <input type="number" value={item.quantity} id="item-quantity" />
-          <Button variant="danger" className="m-3" onClick={removeItemHandler.bind(null, item.title)}>REMOVE</Button>
+          <Button variant="danger" className="m-3" onClick={removeItemHandler.bind(null, item.id)}>REMOVE</Button>
         </Col>
       </Row>
     );

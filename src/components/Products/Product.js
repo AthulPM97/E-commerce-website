@@ -18,7 +18,7 @@ const Product = (props) => {
 
   return (
     <Col xs={6}>
-      <Card className="m-5">
+      <Card className="m-1">
         <h3 className="text-center">{props.title}</h3>
         <Card.Img variant="top" className="product-images" src={props.img} />
         <Card.Footer>

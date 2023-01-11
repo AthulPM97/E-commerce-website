@@ -27,11 +27,11 @@ const productsArr = [
 ];
 
 const Products = () => {
-
   const cartCtx = useContext(CartContext);
-  
+
   const products = productsArr.map((product) => (
     <Product
+      key={product.title}
       item={product}
       title={product.title}
       price={product.price}
@@ -42,9 +42,7 @@ const Products = () => {
     <section id="products" className="container">
       <h2 className="display-3 text-center">Products</h2>
       <Container className="mt-3">
-        <Row>
-          {products}
-        </Row>
+        <Row>{products}</Row>
       </Container>
     </section>
   );
