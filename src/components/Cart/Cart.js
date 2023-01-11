@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Col, Row, Card } from "react-bootstrap";
+import CartContext from "../../store/cart-context";
 import './Cart.css';
 
 const cartElements = [
@@ -25,19 +26,13 @@ const cartElements = [
 
 const Cart = () => {
 
-  const [items, setItems] = useState(cartElements);
+  const cartCtx = useContext(CartContext);
 
   const removeItemHandler = (title) => {
-    let newArray = [];
-    items.forEach((item) => {
-      if(item.title !== title) {
-        newArray.push(item);
-      }
-    });
-    setItems(newArray);
+    
   };
 
-  const cartItems = items.map((item) => {
+  const cartItems = cartCtx.items.map((item) => {
     return (
       <Row className="mr-3 mb-3">
         <Col xs={4} md={4}>

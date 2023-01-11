@@ -1,5 +1,7 @@
 import Product from "./Product";
 import { Container, Row } from "react-bootstrap";
+import { useContext } from "react";
+import CartContext from "../../store/cart-context";
 
 const productsArr = [
   {
@@ -25,8 +27,12 @@ const productsArr = [
 ];
 
 const Products = () => {
+
+  const cartCtx = useContext(CartContext);
+  
   const products = productsArr.map((product) => (
     <Product
+      item={product}
       title={product.title}
       price={product.price}
       img={product.imageUrl}
