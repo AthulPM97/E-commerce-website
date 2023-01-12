@@ -3,7 +3,8 @@ import { Container } from "react-bootstrap";
 const AboutUs = () => {
   return (
     <Container>
-      <h2 className="text-center">About</h2>
+      <h2 className="text-center mt-3">About</h2>
+      <Container className="m-4 p-1">
       <p>
         Lorem ipsum carrots enhanced rebates. Excellent sayings of a man of
         sorrows, hates no prosecutors will unfold in the enduring of which were
@@ -26,6 +27,7 @@ const AboutUs = () => {
         take the hardships of the life of harsh condemn, we are accusing him?
         Him whom something large cisterns.
       </p>
+      </Container>
     </Container>
   );
 };
