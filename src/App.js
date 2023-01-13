@@ -7,6 +7,7 @@ import CartProvider from "./store/CartProvider";
 import { Route } from "react-router-dom";
 import AboutUs from "./Pages/AboutUs";
 import Home from "./Pages/Home";
+import ContactUs from "./Pages/ContactUs";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
         </Route>
         <Route path="/about">
           <AboutUs />
+        </Route>
+        <Route path="/contact-us">
+          <ContactUs />
         </Route>
       </CartProvider>
     </div>

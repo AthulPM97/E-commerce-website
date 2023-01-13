@@ -28,6 +28,7 @@ const Navigationbar = () => {
           <Nav.Link href="/home">Home</Nav.Link>
           <Nav.Link href="/store">Store</Nav.Link>
           <Nav.Link href="/about">About</Nav.Link>
+          <Nav.Link href="/contact-us">Contact Us</Nav.Link>
         </Nav>
         <Button
           variant="outline-info"
