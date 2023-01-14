@@ -1,4 +1,4 @@
-import { Modal, Container, Button, Row,Col } from "react-bootstrap";
+import { Modal, Container, Button, Row, Col } from "react-bootstrap";
 import Cart from './Cart';
 
 const CartModal = (props) => {
@@ -26,6 +26,7 @@ const CartModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
+        <h3 className="text-left">Total: </h3>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
