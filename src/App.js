@@ -9,6 +9,7 @@ import AboutUs from "./Pages/AboutUs";
 import Home from "./Pages/Home";
 import ContactUs from "./Pages/ContactUs";
 import ProductDetail from "./components/Products/ProductDetail";
+import AuthPage from "./Pages/AuthPage";
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
         </Route>
         <Route path="/about">
           <AboutUs />
+        </Route>
+        <Route path="/login">
+          <AuthPage />
         </Route>
         <Route path="/contact-us">
           <ContactUs />
