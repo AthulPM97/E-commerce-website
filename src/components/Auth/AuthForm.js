@@ -30,13 +30,10 @@ const AuthForm = () => {
       }
     ).then((response) => {
       if (response.ok) {
-        emailInputRef.current.value = "";
-        passwordInputRef.current.value = "";
+        localStorage.setItem("email", enteredEmail);
         history.replace("/store");
-
         response.json().then((data) => {
           authCtx.login(data.idToken);
-          console.log(authCtx);
         });
       } else {
         return response.json().then((data) => {

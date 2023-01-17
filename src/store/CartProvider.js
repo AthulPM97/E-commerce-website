@@ -5,6 +5,9 @@ const defaultCartState = {
   items: [],
   totalAmount: 0,
 };
+const email = localStorage.getItem("email");
+const processedEmail = email.replace("@","").replace(".","");
+
 
 const cartReducer = (state, action) => {
   if (action.type === "ADD") {
@@ -19,7 +22,7 @@ const cartReducer = (state, action) => {
       const updatedItem = {
         ...existingCartItem,
         quantity:
-          parseInt(existingCartItem.quantity) + parseInt(action.item.quantity),
+          existingCartItem.quantity + action.item.quantity,
       };
       updatedItems = [...state.items];
       updatedItems[existingCartItemIndex] = updatedItem;
@@ -29,6 +32,22 @@ const cartReducer = (state, action) => {
 
     const updatedTotalAmount =
       state.totalAmount + action.item.price * action.item.quantity;
+
+      fetch(`https://crudcrud.com/api/b34de4777d234cfdaed816995e6f2b82/${processedEmail}`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          items: updatedItems,
+          totalAmount: updatedTotalAmount,
+        }),
+        headers: {
+          'Content-Type' : 'application/JSON',
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("Added to crud")
+        }
+      })
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
@@ -41,12 +60,12 @@ const cartReducer = (state, action) => {
     const existingCartItem = state.items[existingCartItemIndex];
     console.log(existingCartItem);
     let updatedItems;
-    if (parseInt(existingCartItem.quantity) === 1) {
+    if (existingCartItem.quantity === 1) {
       updatedItems = state.items.filter((item) => item.id !== action.id);
     } else {
       const updatedItem = {
         ...existingCartItem,
-        quantity: parseInt(existingCartItem.quantity) - 1,
+        quantity: existingCartItem.quantity - 1,
       };
       updatedItems = [...state.items];
       updatedItems[existingCartItemIndex] = updatedItem;
@@ -79,7 +98,7 @@ const CartProvider = (props) => {
 
   const cartContext = {
     items: cartState.items,
-    totalAmount: cartState.totalAmountamount,
+    totalAmount: cartState.totalAmount,
     addItem: addItemToCart,
     removeItem: removeItemFromCart,
   };
