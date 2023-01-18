@@ -3,83 +3,45 @@ import CartContext from "./cart-context";
 
 const defaultCartState = {
   items: [],
-  totalAmount: 0,
+  total: 0,
 };
-const email = localStorage.getItem("email");
-const processedEmail = email.replace("@","").replace(".","");
-
 
 const cartReducer = (state, action) => {
-  if (action.type === "ADD") {
-    const existingCartItemIndex = state.items.findIndex(
-      (item) => item.id === action.item.id
-    );
-    const existingCartItem = state.items[existingCartItemIndex];
-
-    let updatedItems;
-
-    if (existingCartItem) {
-      const updatedItem = {
-        ...existingCartItem,
-        quantity:
-          existingCartItem.quantity + action.item.quantity,
+  switch (action.type) {
+    case "ADD_ITEM":
+      console.log(state.total);
+      const itemWithId = {...action.payload.item, _id: action.payload._id};
+      return {
+        ...state,
+        items: [...state.items, itemWithId],
+        total: state.total + action.payload.item.price,
       };
-      updatedItems = [...state.items];
-      updatedItems[existingCartItemIndex] = updatedItem;
-    } else {
-      updatedItems = state.items.concat(action.item);
-    }
-
-    const updatedTotalAmount =
-      state.totalAmount + action.item.price * action.item.quantity;
-
-      fetch(`https://crudcrud.com/api/b34de4777d234cfdaed816995e6f2b82/${processedEmail}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          items: updatedItems,
-          totalAmount: updatedTotalAmount,
+    case "REMOVE_ITEM":
+      console.log(action.payload)
+      return {
+        ...state,
+        items: state.items.filter((item) => item._id !== action.payload._id),
+        total: state.total - action.payload.price,
+      };
+    case "UPDATE_ITEM":
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if (item.id === action.payload.id) {
+            return action.payload;
+          }
+          return item;
         }),
-        headers: {
-          'Content-Type' : 'application/JSON',
-        }
-      }).then(response => {
-        if(response.ok) {
-          console.log("Added to crud")
-        }
-      })
-    return {
-      items: updatedItems,
-      totalAmount: updatedTotalAmount,
-    };
-  }
-  if (action.type === "REMOVE") {
-    const existingCartItemIndex = state.items.findIndex(
-      (item) => item.id === action.id
-    );
-    const existingCartItem = state.items[existingCartItemIndex];
-    console.log(existingCartItem);
-    let updatedItems;
-    if (existingCartItem.quantity === 1) {
-      updatedItems = state.items.filter((item) => item.id !== action.id);
-    } else {
-      const updatedItem = {
-        ...existingCartItem,
-        quantity: existingCartItem.quantity - 1,
+        total: state.total + action.payload.price,
       };
-      updatedItems = [...state.items];
-      updatedItems[existingCartItemIndex] = updatedItem;
-    }
-
-    const updatedTotalAmount = state.totalAmount - existingCartItem.price;
-
-    return {
-      items: updatedItems,
-      totalAmount: updatedTotalAmount,
-    };
+    case "CLEAR_CART":
+      return {
+        items: [],
+        total: 0,
+      };
+    default:
+      return defaultCartState;
   }
-
-  return defaultCartState;
 };
 
 const CartProvider = (props) => {
@@ -87,18 +49,54 @@ const CartProvider = (props) => {
     cartReducer,
     defaultCartState
   );
+  console.log(cartState)
 
-  const addItemToCart = (item) => {
-    dispatchCartAction({ type: "ADD", item: item });
+  const email = localStorage.getItem("email");
+  const processedEmail = email.replace("@", "").replace(".", "");
+
+  const addItemToCart = async (item) => {
+    try {
+      const response = await fetch(
+        `https://crudcrud.com/api/4d30a91f8dd2468da7a270094631f5d9/${processedEmail}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            item: item,
+          }),
+          headers: {
+            "Content-Type": "application/JSON",
+          },
+        }
+      );
+      const addedData = await response.json();
+      dispatchCartAction({ type: "ADD_ITEM", payload: addedData });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const removeItemFromCart = (id) => {
-    dispatchCartAction({ type: "REMOVE", id: id });
+  const removeItemFromCart = async (item) => {
+    try {
+      const response = await fetch(
+        `https://crudcrud.com/api/4d30a91f8dd2468da7a270094631f5d9/${processedEmail}/${item._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/JSON",
+          },
+        }
+      );
+      if (response.ok) {
+        dispatchCartAction({ type: "REMOVE_ITEM", payload: item });
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const cartContext = {
     items: cartState.items,
-    totalAmount: cartState.totalAmount,
+    total: cartState.total,
     addItem: addItemToCart,
     removeItem: removeItemFromCart,
   };

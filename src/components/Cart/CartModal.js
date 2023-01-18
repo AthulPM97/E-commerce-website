@@ -31,7 +31,7 @@ const CartModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <h3>TOTAL: ${cartCtx.totalAmount}</h3>
+        <h3>TOTAL: ${cartCtx.total}</h3>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
