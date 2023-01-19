@@ -3,9 +3,11 @@ import { useContext, useState } from "react";
 import CartModal from "../Cart/CartModal";
 import "./Navbar.css";
 import CartContext from "../../store/cart-context";
+import AuthContext from "../../store/auth-context";
 
 const Navigationbar = () => {
   const cartCtx = useContext(CartContext);
+  const authCtx = useContext(AuthContext);
 
   const [showCart, setShowCart] = useState(false);
 
@@ -17,6 +19,9 @@ const Navigationbar = () => {
   const onHideHandler = () => {
     setShowCart(false);
   };
+  const logoutHandler = () => {
+    authCtx.logout();
+  }
 
   const cartItemCount = cartCtx.items.length;
 
@@ -40,6 +45,7 @@ const Navigationbar = () => {
           Cart<span className="badge">{cartItemCount}</span>
         </Button>
       </Container>
+      <Button variant="danger" className="m-1" onClick={logoutHandler}>Logout</Button>
     </Navbar>
   );
 };

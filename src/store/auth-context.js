@@ -1,18 +1,19 @@
 import React, { useState } from "react"
+import { Redirect, useHistory } from "react-router-dom";
 
 const AuthContext = React.createContext({
     token: '',
     isLoggedin: null,
     login: () => {},
-    email: '',
+    logout: () => {},
 });
 
 export const AuthProvider = (props) => {
+    const history = useHistory();
 
     const storedToken = localStorage.getItem('token') || '';
 
     const [token, setToken] = useState(storedToken);
-    const email = localStorage.getItem("email");
     
     const userIsLoggedin = !!token;
     
@@ -21,11 +22,17 @@ export const AuthProvider = (props) => {
         setToken(token);
     }
 
+    const logoutHandler = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('email');
+        history.replace('/login');
+    };
+
     const authContext = {
         token: token,
         isLoggedin: userIsLoggedin,
         login: loginHandler,
-        email: email,
+        logout: logoutHandler,
     };
 
     return(
