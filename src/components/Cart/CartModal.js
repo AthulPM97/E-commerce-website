@@ -7,6 +7,10 @@ import "./CartModal.css";
 const CartModal = (props) => {
   const cartCtx = useContext(CartContext);
 
+  const total = cartCtx.items.reduce((tot, item) => {
+    return tot + item.price * item.quantity;
+  }, 0);
+
   return (
     <Modal {...props}>
       <Modal.Header closeButton>
@@ -31,7 +35,7 @@ const CartModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <h3>TOTAL: ${cartCtx.total}</h3>
+        <h3>TOTAL: ${total}</h3>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

@@ -10,6 +10,7 @@ const Navigationbar = () => {
   const [showCart, setShowCart] = useState(false);
 
   const showCartHandler = () => {
+    cartCtx.getItems();
     setShowCart(true);
   };
 
