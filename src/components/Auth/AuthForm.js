@@ -31,7 +31,7 @@ const AuthForm = () => {
     ).then((response) => {
       if (response.ok) {
         localStorage.setItem("email", enteredEmail);
-        history.replace("/store");
+        history.push("/store");
         response.json().then((data) => {
           authCtx.login(data.idToken);
         });

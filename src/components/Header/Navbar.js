@@ -21,7 +21,7 @@ const Navigationbar = () => {
   };
   const logoutHandler = () => {
     authCtx.logout();
-  }
+  };
 
   const cartItemCount = cartCtx.items.length;
 
@@ -45,7 +45,9 @@ const Navigationbar = () => {
           Cart<span className="badge">{cartItemCount}</span>
         </Button>
       </Container>
-      <Button variant="danger" className="m-1" onClick={logoutHandler}>Logout</Button>
+      {authCtx.isLoggedin && <Button variant="danger" className="m-1" onClick={logoutHandler}>
+        Logout
+      </Button>}
     </Navbar>
   );
 };
