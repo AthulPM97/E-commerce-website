@@ -19,6 +19,7 @@ export const AuthProvider = (props) => {
     
     const loginHandler = (token) => {
         localStorage.setItem('token', token);
+        history.push('/store');
         setToken(token);
     }
 

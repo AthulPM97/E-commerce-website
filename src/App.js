@@ -37,9 +37,9 @@ function App() {
           <Route path="/about">
             <AboutUs />
           </Route>
-          <Route path="/login">
+          {!authCtx.isLoggedin &&<Route path="/login">
             <AuthPage />
-          </Route>
+          </Route>}
           <Route path="/contact-us">
             <ContactUs />
           </Route>
