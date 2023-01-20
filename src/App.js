@@ -1,16 +1,18 @@
-import React, { useContext } from "react";
-import Header from "./components/Header/Header";
+import React, { lazy, Suspense, useContext } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import "./App.css";
+
+import Header from "./components/Header/Header";
 import Products from "./components/Products/Products";
 import CartProvider from "./store/CartProvider";
-import { Redirect, Route, Switch } from "react-router-dom";
-import AboutUs from "./Pages/AboutUs";
-import Home from "./Pages/Home";
-import ContactUs from "./Pages/ContactUs";
 import ProductDetail from "./components/Products/ProductDetail";
-import AuthPage from "./Pages/AuthPage";
 import AuthContext from "./store/auth-context";
+
+const AboutUs = lazy(() => import("./Pages/AboutUs"));
+const Home = lazy(() => import("./Pages/Home"));
+const ContactUs = lazy(() => import("./Pages/ContactUs"));
+const AuthPage = lazy(() => import("./Pages/AuthPage"));
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -24,7 +26,9 @@ function App() {
             <Redirect to="/home" />
           </Route>
           <Route path="/home">
-            <Home />
+            <Suspense fallback={<p>Loading...</p>}>
+              <Home />
+            </Suspense>
           </Route>
           <Route path="/store" exact>
             {authCtx.isLoggedin && <Products />}
@@ -35,13 +39,21 @@ function App() {
             {!authCtx.isLoggedin && <Redirect to="/login" />}
           </Route>
           <Route path="/about">
-            <AboutUs />
+            <Suspense fallback={<p>Loading...</p>}>
+              <AboutUs />
+            </Suspense>
           </Route>
-          {!authCtx.isLoggedin &&<Route path="/login">
-            <AuthPage />
-          </Route>}
+          {!authCtx.isLoggedin && (
+            <Route path="/login">
+              <Suspense fallback={<p>Loading...</p>}>
+              <AuthPage />
+            </Suspense>
+            </Route>
+          )}
           <Route path="/contact-us">
-            <ContactUs />
+            <Suspense fallback={<p>Loading...</p>}>
+              <ContactUs />
+            </Suspense>
           </Route>
         </Switch>
       </CartProvider>
