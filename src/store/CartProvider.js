@@ -40,7 +40,7 @@ const CartProvider = (props) => {
   const getData = async () => {
     try {
       const response = await fetch(
-        `https://crudcrud.com/api/24a1ea653796459fae98994671b90402/${processedEmail}`,
+        `https://crudcrud.com/api/025a0b5f5cd348279a355ed9bfc85b80/${processedEmail}`,
         {
           headers: {
             "Content-Type": "application/JSON",
@@ -63,12 +63,13 @@ const CartProvider = (props) => {
       (Item) => Item.id === item.id
     );
     let existingItem = cartState.items[existingItemIndex];
-    const newQuantity = existingItem.quantity + item.quantity;
 
     if (existingItem) {
+      const newQuantity = existingItem.quantity + item.quantity;
       try {
+
         const response = await fetch(
-          `https://crudcrud.com/api/24a1ea653796459fae98994671b90402/${processedEmail}/${existingItem._id}`,
+          `https://crudcrud.com/api/025a0b5f5cd348279a355ed9bfc85b80/${processedEmail}/${existingItem._id}`,
           {
             method: "PUT",
             body: JSON.stringify({
@@ -90,7 +91,7 @@ const CartProvider = (props) => {
     } else {
       try {
         const response = await fetch(
-          `https://crudcrud.com/api/24a1ea653796459fae98994671b90402/${processedEmail}`,
+          `https://crudcrud.com/api/025a0b5f5cd348279a355ed9bfc85b80/${processedEmail}`,
           {
             method: "POST",
             body: JSON.stringify({
@@ -117,7 +118,7 @@ const CartProvider = (props) => {
     if (item.quantity !== 1) {
       try {
         const response = await fetch(
-          `https://crudcrud.com/api/24a1ea653796459fae98994671b90402/${processedEmail}/${item._id}`,
+          `https://crudcrud.com/api/025a0b5f5cd348279a355ed9bfc85b80/${processedEmail}/${item._id}`,
           {
             method: "PUT",
             body: JSON.stringify({
@@ -142,7 +143,7 @@ const CartProvider = (props) => {
     } else {
       try {
         const response = await fetch(
-          `https://crudcrud.com/api/24a1ea653796459fae98994671b90402/${processedEmail}/${item._id}`,
+          `https://crudcrud.com/api/025a0b5f5cd348279a355ed9bfc85b80/${processedEmail}/${item._id}`,
           {
             method: "DELETE",
             headers: {

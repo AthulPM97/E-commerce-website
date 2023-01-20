@@ -1,5 +1,5 @@
 import { Nav, Navbar, Container, Button } from "react-bootstrap";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CartModal from "../Cart/CartModal";
 import "./Navbar.css";
 import CartContext from "../../store/cart-context";
@@ -8,7 +8,7 @@ import AuthContext from "../../store/auth-context";
 const Navigationbar = () => {
   const cartCtx = useContext(CartContext);
   const authCtx = useContext(AuthContext);
-
+  
   const [showCart, setShowCart] = useState(false);
 
   const showCartHandler = () => {
@@ -37,13 +37,13 @@ const Navigationbar = () => {
           <Nav.Link href="/login">Login</Nav.Link>
           <Nav.Link href="/contact-us">Contact Us</Nav.Link>
         </Nav>
-        <Button
+        {authCtx.isLoggedin && <Button
           variant="outline-info"
           className="float-end"
           onClick={showCartHandler}
         >
           Cart<span className="badge">{cartItemCount}</span>
-        </Button>
+        </Button>}
       </Container>
       {authCtx.isLoggedin && <Button variant="danger" className="m-1" onClick={logoutHandler}>
         Logout

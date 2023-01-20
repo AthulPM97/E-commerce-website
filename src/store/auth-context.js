@@ -17,15 +17,18 @@ export const AuthProvider = (props) => {
     
     const userIsLoggedin = !!token;
     
-    const loginHandler = (token,email) => {
+    const loginHandler = (token) => {
         localStorage.setItem('token', token);
         setToken(token);
     }
 
     const logoutHandler = () => {
+        setToken(() => {
+            return '';
+        });
         localStorage.removeItem('token');
         localStorage.removeItem('email');
-        history.replace('/login');
+        history.replace('/home');
     };
 
     const authContext = {
@@ -39,7 +42,5 @@ export const AuthProvider = (props) => {
         <AuthContext.Provider value={authContext}>{props.children}</AuthContext.Provider>
     )
 }
-
-
 
 export default AuthContext;

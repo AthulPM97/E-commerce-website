@@ -5,7 +5,6 @@ import "./Cart.css";
 
 const Cart = () => {
   const cartCtx = useContext(CartContext);
-  console.log(cartCtx);
 
   const removeItemHandler = (item) => {
     cartCtx.removeItem(item);

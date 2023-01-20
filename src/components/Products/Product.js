@@ -17,7 +17,7 @@ const Product = (props) => {
   };
 
   return (
-    <Col xs={6}>
+    <Col xs={12} md={6} lg={4}>
       <Card className="m-1">
         <h3 className="text-center">{props.title}</h3>
         <Link to={{pathname: "/store/product", state:props}}>
