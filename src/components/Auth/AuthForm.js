@@ -43,7 +43,7 @@ const AuthForm = () => {
     });}
 
     return (
-      <Container fluid className="w-25">
+      <Container responsive="sm">
         <Form onSubmit={submitHandler}>
           <Form.Group className="mt-3">
             <Form.Label>E-mail</Form.Label>

@@ -26,7 +26,7 @@ const Navigationbar = () => {
   const cartItemCount = cartCtx.items.length;
 
   return (
-    <Navbar bg="dark" variant="dark" className="fixed-top">
+    <Navbar bg="dark" variant="dark" className="fixed-top" >
       <CartModal show={showCart} onHide={onHideHandler} />
       <Container>
         <Navbar.Brand href="#home">The Generics</Navbar.Brand>
