@@ -13,9 +13,9 @@ const tourDetails = [
 ];
 
 const Home = () => {
-  const tours = tourDetails.map((tour) => {
+  const tours = tourDetails.map((tour,index) => {
     return (
-      <Row className="mb-3">
+      <Row className="mb-3" key={index}>
         <Col>{tour.date}</Col>
         <Col>{tour.location}</Col>
         <Col>{tour.venue}</Col>

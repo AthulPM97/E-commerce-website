@@ -10,13 +10,15 @@ const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
+  const apiKey = process.env.REACT_APP_AUTH_API_KEY;
+
   const submitHandler = (event) => {
     event.preventDefault();
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
     fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBX2wLipg-BCZ8_v37G_NLTvpeaUndGluI",
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
       {
         method: "POST",
         body: JSON.stringify({
@@ -40,34 +42,34 @@ const AuthForm = () => {
           alert(`${data.error.message}`);
         });
       }
-    });}
-
-    return (
-      <Container responsive="sm">
-        <Form onSubmit={submitHandler}>
-          <Form.Group className="mt-3">
-            <Form.Label>E-mail</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              ref={emailInputRef}
-            />
-          </Form.Group>
-          <Form.Group className="mt-3">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter password"
-              ref={passwordInputRef}
-            />
-          </Form.Group>
-          <Button className="mt-3" variant="primary" type="submit">
-            Login
-          </Button>
-        </Form>
-      </Container>
-    );
+    });
   };
 
+  return (
+    <Container responsive="sm">
+      <Form onSubmit={submitHandler}>
+        <Form.Group className="mt-3">
+          <Form.Label>E-mail</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            ref={emailInputRef}
+          />
+        </Form.Group>
+        <Form.Group className="mt-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Enter password"
+            ref={passwordInputRef}
+          />
+        </Form.Group>
+        <Button className="mt-3" variant="primary" type="submit">
+          Login
+        </Button>
+      </Form>
+    </Container>
+  );
+};
 
 export default AuthForm;
