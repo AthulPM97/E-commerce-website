@@ -34,13 +34,15 @@ const CartProvider = (props) => {
     defaultCartState
   );
 
+  const dbUrl = "https://e-commerce-website-50482-default-rtdb.firebaseio.com";
+
   const email = localStorage.getItem("email") || "";
   const processedEmail = email.replace("@", "").replace(".", "") || "";
 
   const getData = async () => {
     try {
       const response = await fetch(
-        `https://crudcrud.com/api/f29481db86e045d0ab87a8c6bc63fa70/${processedEmail}`,
+        `${dbUrl}${processedEmail}`,
         {
           headers: {
             "Content-Type": "application/JSON",
@@ -68,7 +70,7 @@ const CartProvider = (props) => {
       const newQuantity = existingItem.quantity + item.quantity;
       try {
         const response = await fetch(
-          `https://crudcrud.com/api/f29481db86e045d0ab87a8c6bc63fa70/${processedEmail}/${existingItem._id}`,
+          `${dbUrl}/${processedEmail}/${existingItem._id}`,
           {
             method: "PUT",
             body: JSON.stringify({
@@ -90,7 +92,7 @@ const CartProvider = (props) => {
     } else {
       try {
         const response = await fetch(
-          `https://crudcrud.com/api/f29481db86e045d0ab87a8c6bc63fa70/${processedEmail}`,
+          `${dbUrl}/${processedEmail}.json`,
           {
             method: "POST",
             body: JSON.stringify({
@@ -106,6 +108,7 @@ const CartProvider = (props) => {
           }
         );
         const addedData = await response.json();
+        console.log(addedData)
         dispatchCartAction({ type: "ADD_ITEM", payload: addedData });
       } catch (err) {
         console.log(err);
@@ -117,7 +120,7 @@ const CartProvider = (props) => {
     if (item.quantity !== 1) {
       try {
         const response = await fetch(
-          `https://crudcrud.com/api/f29481db86e045d0ab87a8c6bc63fa70/${processedEmail}/${item._id}`,
+          `${dbUrl}${processedEmail}/${item._id}`,
           {
             method: "PUT",
             body: JSON.stringify({
@@ -142,7 +145,7 @@ const CartProvider = (props) => {
     } else {
       try {
         const response = await fetch(
-          `https://crudcrud.com/api/f29481db86e045d0ab87a8c6bc63fa70/${processedEmail}/${item._id}`,
+          `${dbUrl}${processedEmail}/${item._id}`,
           {
             method: "DELETE",
             headers: {
