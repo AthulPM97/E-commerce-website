@@ -69,17 +69,18 @@ const CartProvider = (props) => {
     if (existingItem) {
       const newQuantity = existingItem.quantity + item.quantity;
       try {
+        const data = {
+          title: existingItem.title,
+          price: existingItem.price,
+          imageUrl: existingItem.imageUrl,
+          id: existingItem.id,
+          quantity: newQuantity,
+        }
         const response = await fetch(
-          `${dbUrl}/${processedEmail}/${existingItem._id}`,
+          `${dbUrl}/${processedEmail}/${existingItem.id}.json`,
           {
             method: "PUT",
-            body: JSON.stringify({
-              title: existingItem.title,
-              price: existingItem.price,
-              imageUrl: existingItem.imageUrl,
-              id: existingItem.id,
-              quantity: newQuantity,
-            }),
+            body: JSON.stringify(data),
             headers: {
               "Content-Type": "application/JSON",
             },
@@ -91,17 +92,18 @@ const CartProvider = (props) => {
       }
     } else {
       try {
+        const data = {
+          title: item.title,
+          price: item.price,
+          imageUrl: item.imageUrl,
+          id: item.id,
+          quantity: item.quantity,
+        }
         const response = await fetch(
           `${dbUrl}/${processedEmail}.json`,
           {
             method: "POST",
-            body: JSON.stringify({
-              title: item.title,
-              price: item.price,
-              imageUrl: item.imageUrl,
-              id: item.id,
-              quantity: item.quantity,
-            }),
+            body: JSON.stringify(data),
             headers: {
               "Content-Type": "application/JSON",
             },
@@ -109,7 +111,8 @@ const CartProvider = (props) => {
         );
         const addedData = await response.json();
         console.log(addedData)
-        dispatchCartAction({ type: "ADD_ITEM", payload: addedData });
+        const dataWithId = {...data, id: addedData.name}
+        dispatchCartAction({ type: "ADD_ITEM", payload: dataWithId });
       } catch (err) {
         console.log(err);
       }
