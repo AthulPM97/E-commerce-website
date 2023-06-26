@@ -12,6 +12,11 @@ const cartReducer = (state, action) => {
         ...state,
         items: [...state.items, action.payload],
       };
+    case "UPDATE_ITEM":
+      return {
+        ...state,
+        items: [...state.items, action.payload],
+      };
     case "REMOVE_ITEM":
       console.log(action.payload);
       return {
@@ -41,16 +46,19 @@ const CartProvider = (props) => {
 
   const getData = async () => {
     try {
-      const response = await fetch(
-        `${dbUrl}${processedEmail}`,
-        {
-          headers: {
-            "Content-Type": "application/JSON",
-          },
-        }
-      );
+      const response = await fetch(`${dbUrl}/${processedEmail}.json`, {
+        headers: {
+          "Content-Type": "application/JSON",
+        },
+      });
       const data = await response.json();
-      dispatchCartAction({ type: "FETCH_DATA", payload: data });
+      // console.log(data);
+      const keys = Object.keys(data);
+      let itemsArray = [];
+      keys.forEach((key) => {
+        itemsArray.push({ ...data[key], id: key });
+      });
+      dispatchCartAction({ type: "FETCH_DATA", payload: itemsArray });
     } catch (err) {
       console.log(err);
     }
@@ -75,7 +83,7 @@ const CartProvider = (props) => {
           imageUrl: existingItem.imageUrl,
           id: existingItem.id,
           quantity: newQuantity,
-        }
+        };
         const response = await fetch(
           `${dbUrl}/${processedEmail}/${existingItem.id}.json`,
           {
@@ -86,7 +94,10 @@ const CartProvider = (props) => {
             },
           }
         );
-        if (response.ok) console.log("success");
+        if (response.ok) {
+          dispatchCartAction({ type: "UPDATE_ITEM", payload: data });
+          console.log("success");
+        }
       } catch (err) {
         console.log(err);
       }
@@ -98,20 +109,17 @@ const CartProvider = (props) => {
           imageUrl: item.imageUrl,
           id: item.id,
           quantity: item.quantity,
-        }
-        const response = await fetch(
-          `${dbUrl}/${processedEmail}.json`,
-          {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-              "Content-Type": "application/JSON",
-            },
-          }
-        );
+        };
+        const response = await fetch(`${dbUrl}/${processedEmail}.json`, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/JSON",
+          },
+        });
         const addedData = await response.json();
-        console.log(addedData)
-        const dataWithId = {...data, id: addedData.name}
+        console.log(addedData);
+        const dataWithId = { ...data, id: addedData.name };
         dispatchCartAction({ type: "ADD_ITEM", payload: dataWithId });
       } catch (err) {
         console.log(err);
@@ -122,22 +130,19 @@ const CartProvider = (props) => {
   const removeItemFromCart = async (item) => {
     if (item.quantity !== 1) {
       try {
-        const response = await fetch(
-          `${dbUrl}${processedEmail}/${item._id}`,
-          {
-            method: "PUT",
-            body: JSON.stringify({
-              title: item.title,
-              price: item.price,
-              imageUrl: item.imageUrl,
-              id: item.id,
-              quantity: item.quantity - 1,
-            }),
-            headers: {
-              "Content-Type": "application/JSON",
-            },
-          }
-        );
+        const response = await fetch(`${dbUrl}${processedEmail}/${item._id}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            title: item.title,
+            price: item.price,
+            imageUrl: item.imageUrl,
+            id: item.id,
+            quantity: item.quantity - 1,
+          }),
+          headers: {
+            "Content-Type": "application/JSON",
+          },
+        });
         if (response.ok) {
           getData();
           console.log("success");
@@ -147,15 +152,12 @@ const CartProvider = (props) => {
       }
     } else {
       try {
-        const response = await fetch(
-          `${dbUrl}${processedEmail}/${item._id}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/JSON",
-            },
-          }
-        );
+        const response = await fetch(`${dbUrl}${processedEmail}/${item._id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/JSON",
+          },
+        });
         if (response.ok) {
           dispatchCartAction({ type: "REMOVE_ITEM", payload: item });
         }
