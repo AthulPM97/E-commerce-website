@@ -107,7 +107,7 @@ const CartProvider = (props) => {
           title: item.title,
           price: item.price,
           imageUrl: item.imageUrl,
-          id: item.id,
+          // id: item.id,
           quantity: item.quantity,
         };
         const response = await fetch(`${dbUrl}/${processedEmail}.json`, {
@@ -130,7 +130,7 @@ const CartProvider = (props) => {
   const removeItemFromCart = async (item) => {
     if (item.quantity !== 1) {
       try {
-        const response = await fetch(`${dbUrl}${processedEmail}/${item._id}`, {
+        const response = await fetch(`${dbUrl}/${processedEmail}/${item.id}.json`, {
           method: "PUT",
           body: JSON.stringify({
             title: item.title,
@@ -152,7 +152,7 @@ const CartProvider = (props) => {
       }
     } else {
       try {
-        const response = await fetch(`${dbUrl}${processedEmail}/${item._id}`, {
+        const response = await fetch(`${dbUrl}/${processedEmail}/${item.id}.json`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/JSON",
