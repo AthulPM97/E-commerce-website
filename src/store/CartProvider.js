@@ -21,7 +21,7 @@ const cartReducer = (state, action) => {
       console.log(action.payload);
       return {
         ...state,
-        items: state.items.filter((item) => item._id !== action.payload._id),
+        items: state.items.filter((item) => item.id !== action.payload.id),
       };
     case "FETCH_DATA":
       return {
@@ -58,6 +58,7 @@ const CartProvider = (props) => {
       keys.forEach((key) => {
         itemsArray.push({ ...data[key], id: key });
       });
+      console.log(itemsArray)
       dispatchCartAction({ type: "FETCH_DATA", payload: itemsArray });
     } catch (err) {
       console.log(err);
@@ -69,8 +70,9 @@ const CartProvider = (props) => {
   }, []);
 
   const addItemToCart = async (item) => {
+    console.log(item)
     let existingItemIndex = cartState.items.findIndex(
-      (Item) => Item.id === item.id
+      (Item) => Item.title === item.title
     );
     let existingItem = cartState.items[existingItemIndex];
 
